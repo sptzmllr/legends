@@ -1,0 +1,19 @@
+
+# Makefile dependancies
+*.mk
+
+# Compiled Libs
+*.so
+
+# Compiled Object files
+*.o
+
+# Cmpiled Executables
+*.out
+
+# VisualStudio Database
+*.db
+*.opendb
+
+# Original Sourcecode for Porting and Testingdata
+.vs/

@@ -16,6 +16,7 @@ int main()
 	std::cout << "Euler is : " << eulerf << std::endl;
 
 	lgnds::math::statistics<double>		Number_Sink;
+	lgnds::math::statistics<int>		Number_Sink_i;
 
 	Number_Sink.push_back(12.0);
 }

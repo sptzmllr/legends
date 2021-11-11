@@ -14,7 +14,9 @@ constexpr T euler = std::exp(1.0);
 template<typename T>
 class statistics
 {
-	static_assert(std::is_arithmetic<T>::value, "Type must be floating point");
+	// TODO Enhance the static assert with numbers and strings
+	static_assert(std::is_arithmetic<T>::value, "");
+
 public:
 	statistics() {};
 	~statistics() {};

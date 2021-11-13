@@ -1,5 +1,7 @@
 #include <cmath>
 #include <vector>
+#include <algorithm>
+#include <iterator>
 
 namespace lgnds {
 
@@ -11,7 +13,12 @@ constexpr T pi = 2 * acos(0.0);
 template<typename T>
 constexpr T euler = std::exp(1.0);
 
-template<typename T>
+
+// "cumulative" 
+enum class counting_type { cumulative, non_cumulative };
+
+
+template<typename T, lgnds::math::counting_type Count_Type=lgnds::math::counting_type::cumulative>
 class statistics
 {
 	// TODO Enhance the static assert with numbers and strings
@@ -36,8 +43,15 @@ public:
 		data_.clear();
 	}
 
+	T min()
+	{
+		return *std::min_element( data_.begin(), data_.end() );
+	}
+
 private:
-	std::vector<T>	data_;
+	std::vector<T>				data_;
+
+	lgnds::math::counting_type 	Count_Type_;
 };
 // ended namespace lgnds::math
 };

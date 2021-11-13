@@ -40,6 +40,7 @@ enum length_unit
 template<typename T, enum lgnds::length_unit Unit>
 class length
 {
+	static_assert(std::is_floating_point<T>::value, "Type must be floating point");
 public:
 	length() {};
 
@@ -91,11 +92,11 @@ public:
 	}
 
 	//template< enum lgnds::length_unit ForeinUnit>
-	T convert( const enum lgnds::length_unit ForeinUnit)
+	T convert( const enum lgnds::length_unit External )
 	{	
 		T temp = this->convert_to_meter();
 
-		switch( ForeinUnit )
+		switch( External )
 		{
 			case kilometer: return temp * 0.000'1;	break;
 		}

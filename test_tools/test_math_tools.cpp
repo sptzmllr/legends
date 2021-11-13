@@ -19,5 +19,15 @@ int main()
 	lgnds::math::statistics<int>		Number_Sink_i;
 
 	Number_Sink.push_back(12.0);
+	Number_Sink.emplace_back(14.0);
+
+	std::cout << Number_Sink.min() << std::endl;
+
+	/*
+	for( auto i : Number_Sink )
+	{
+		std::cout << i << std::endl;
+	}
+	*/
 }
 

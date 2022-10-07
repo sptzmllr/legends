@@ -226,12 +226,12 @@ public:
 		//this->push_field<T>(
 	}
 
-#ifdef LEGENDS_SAGA_COMPABILITY
+//#ifdef LEGENDS_SAGA_COMPABILITY
 	table( CSG_Table* Table )
 	{
 
 	}
-#endif
+//#endif
 
 	~table( void )	{};
 

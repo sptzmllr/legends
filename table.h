@@ -233,6 +233,7 @@ public:
 	{
 		for( int index = 0; index < pTable->Get_Field_Count(); index++ )
 		{
+				asdaf
 
 		}
 

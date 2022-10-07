@@ -185,6 +185,17 @@ public:
 		//m_values->push_back( value );
 		m_values.push_back( value );
 	}
+	
+	void reserve( std::size_t new_cap )
+	{
+		m_values.reserve( new_cap );
+
+	}
+
+	void resize( std::size_t new_size )
+	{
+		m_values.resize( new_size );
+	}
 
 	T& at( const size_t index )
 	{
@@ -232,18 +243,35 @@ public:
 #ifdef LEGENDS_SAGA_COMPABILITY
 	table( CSG_Table* pTable )
 	{
-		int table_size = pTable->Get_Recod_Count();
+		int table_size = pTable->Get_Record_Count();
 		
 		if( table_size >= 0 )
-			this.size = (std::size_t) table_size;
+			this->size = (std::size_t) table_size;
 
-		for( int index = 0; index < pTable->Get_Field_Count(); index++ )
+		for( int field_index = 0; field_index < pTable->Get_Field_Count(); field_index++ )
 		{
-			switch( pTable->Get_Field_Type(index) )
+			switch( pTable->Get_Field_Type(field_index) )
 			{
 				case SG_DATATYPE_Bit:
 
-					this.push_field<bool>( "name" );
+					this->push_field<bool>( "name" );
+				break;
+
+				case SG_DATATYPE_Double:
+					this->push_field<double>( "name" );
+
+					std::shared_ptr <table_field_base> base_ptr = this->m_fields.back();
+					lgnds::table_field<double> field = 
+						(*std::dynamic_pointer_cast<table_field<double>>(base_ptr));
+
+					for( int record = 0; record < pTable->Get_Count(); record++ )
+					{
+						field.at( record ) = pTable->Get_Record(record)->asDouble(field_index);
+
+						//*field = pTable->Get_Record(record)->asDouble(field_index);
+						//++field;
+					}
+				break;
 
 
 			}
@@ -257,10 +285,19 @@ public:
 	template <typename T>
 	void push_field (std::string S)
 	{
-		m_fields.push_back( std::make_shared <table_field <T>>(S) );
+		std::shared_ptr<table_field<T>> new_field = std::make_shared <table_field <T>>(S);
+		new_field->resize( this->size );
+		this->m_fields.push_back( new_field );
+		
 	}
 
-	
+	/*
+	template <typename T>
+	std::shared_ptr <table_field<T>> 	push_field( std::string S )
+	{
+		
+	}
+	*/
 	
 	template <typename T>
 	std::shared_ptr <table_field <T>>	field( int index )

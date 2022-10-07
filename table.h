@@ -3,6 +3,8 @@
 #include <memory>
 #include <iostream>
 #include "dataobject.h"
+#include <saga_api/saga_api.h>
+
 namespace lgnds{
 
 template<typename table>
@@ -227,8 +229,12 @@ public:
 	}
 
 //#ifdef LEGENDS_SAGA_COMPABILITY
-	table( CSG_Table* Table )
+	table( CSG_Table* pTable )
 	{
+		for( int index = 0; index < pTable->Get_Field_Count(); index++ )
+		{
+
+		}
 
 	}
 //#endif

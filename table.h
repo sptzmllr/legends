@@ -228,17 +228,29 @@ public:
 		//this->push_field<T>(
 	}
 
-//#ifdef LEGENDS_SAGA_COMPABILITY
+#define LEGENDS_SAGA_COMPABILITY
+#ifdef LEGENDS_SAGA_COMPABILITY
 	table( CSG_Table* pTable )
 	{
+		int table_size = pTable->Get_Recod_Count();
+		
+		if( table_size >= 0 )
+			this.size = (std::size_t) table_size;
+
 		for( int index = 0; index < pTable->Get_Field_Count(); index++ )
 		{
-				asdaf
+			switch( pTable->Get_Field_Type(index) )
+			{
+				case SG_DATATYPE_Bit:
 
+					this.push_field<bool>( "name" );
+
+
+			}
 		}
 
 	}
-//#endif
+#endif
 
 	~table( void )	{};
 
@@ -247,6 +259,8 @@ public:
 	{
 		m_fields.push_back( std::make_shared <table_field <T>>(S) );
 	}
+
+	
 	
 	template <typename T>
 	std::shared_ptr <table_field <T>>	field( int index )
@@ -299,6 +313,8 @@ public:
 private:
 	std::vector<std::shared_ptr<table_field_base>> m_fields;
 	std::string m_table_name = "none";
+	
+	std::size_t 	size = 0;
 };
 
 

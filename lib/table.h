@@ -239,38 +239,183 @@ public:
 		//this->push_field<T>(
 	}
 
-#define LEGENDS_SAGA_COMPABILITY
-#ifdef LEGENDS_SAGA_COMPABILITY
 	table( CSG_Table* pTable )
 	{
-		int table_size = pTable->Get_Record_Count();
+		long long int table_size = pTable->Get_Count();
 		
 		if( table_size >= 0 )
 			this->size = (std::size_t) table_size;
 
 		for( int field_index = 0; field_index < pTable->Get_Field_Count(); field_index++ )
 		{
+			std::wstring ws =  pTable->Get_Field_Name(field_index); 
+			std::string FieldName( ws.begin(), ws.end() );
+
+			std::shared_ptr <table_field_base> base_ptr = nullptr;
 			switch( pTable->Get_Field_Type(field_index) )
 			{
+				/*
 				case SG_DATATYPE_Bit:
+				{
+					this->push_field<bool>( FieldName );
+					base_ptr = this->m_fields.back();
+					lgnds::table_field<bool> field = (*std::dynamic_pointer_cast<table_field<bool>>(base_ptr));
 
-					this->push_field<bool>( "name" );
+					for( std::size_t rec=0; rec<size; rec++ )
+					{
+						field.at(rec) = (bool) pTable->Get_Record(rec)->asShort(field_index);
+					}
+				}
+				break;
+				*/
+
+				case SG_DATATYPE_Byte:
+				{
+					this->push_field<unsigned char>( FieldName );
+					base_ptr = this->m_fields.back();
+					lgnds::table_field<unsigned char> field = (*std::dynamic_pointer_cast<table_field<unsigned char>>(base_ptr));
+
+					for( std::size_t rec=0; rec<size; rec++ )
+					{
+						field.at(rec) = (unsigned char) pTable->Get_Record(rec)->asChar(field_index);
+					}
+				}
+				break;
+
+				case SG_DATATYPE_Char:
+				{
+					this->push_field<char>( FieldName );
+					base_ptr = this->m_fields.back();
+					lgnds::table_field<char> field = (*std::dynamic_pointer_cast<table_field<char>>(base_ptr));
+
+					for( std::size_t rec=0; rec<size; rec++ )
+					{
+						field.at(rec) = (char) pTable->Get_Record(rec)->asChar(field_index);
+					}
+				}
+				break;
+
+				case SG_DATATYPE_Word:
+				{
+					this->push_field<uint16_t>( FieldName );
+					base_ptr = this->m_fields.back();
+					lgnds::table_field<uint16_t>field = (*std::dynamic_pointer_cast<table_field<uint16_t>>(base_ptr));
+
+					for( std::size_t rec=0; rec<size; rec++ )
+					{
+						field.at(rec) = (uint16_t) pTable->Get_Record(rec)->asChar(field_index);
+					}
+				}
+				break;
+
+				case SG_DATATYPE_Short:
+				{
+					this->push_field<int16_t>( FieldName );
+					base_ptr = this->m_fields.back();
+					lgnds::table_field<int16_t> field = (*std::dynamic_pointer_cast<table_field<int16_t>>(base_ptr));
+
+					for( std::size_t rec=0; rec<size; rec++ )
+					{
+						field.at(rec) = (int16_t) pTable->Get_Record(rec)->asShort(field_index);
+					}
+				}
+				break;
+
+				case SG_DATATYPE_DWord:
+				{
+					this->push_field<uint32_t>( FieldName );
+					base_ptr = this->m_fields.back();
+					lgnds::table_field<uint32_t> field = (*std::dynamic_pointer_cast<table_field<uint32_t>>(base_ptr));
+
+					for( std::size_t rec=0; rec<size; rec++ )
+					{
+						field.at(rec) = (uint32_t) pTable->Get_Record(rec)->asShort(field_index);
+					}
+				}
+				break;
+
+				case SG_DATATYPE_Int:
+				{
+					this->push_field<int32_t>( FieldName );
+					base_ptr = this->m_fields.back();
+					lgnds::table_field<int32_t> field = (*std::dynamic_pointer_cast<table_field<int32_t>>(base_ptr));
+
+					for( std::size_t rec=0; rec<size; rec++ )
+					{
+						field.at(rec) = (int32_t) pTable->Get_Record(rec)->asInt(field_index);
+					}
+				}
+				break;
+
+				case SG_DATATYPE_ULong:
+				{
+					this->push_field<uint64_t>( FieldName );
+					base_ptr = this->m_fields.back();
+					lgnds::table_field<uint64_t> field = (*std::dynamic_pointer_cast<table_field<uint64_t>>(base_ptr));
+
+					for( std::size_t rec=0; rec<size; rec++ )
+					{
+						field.at(rec) = (uint64_t) pTable->Get_Record(rec)->asLong(field_index);
+					}
+				}
+				break;
+
+				case SG_DATATYPE_Long:
+				{
+					this->push_field<int64_t>( FieldName );
+					base_ptr = this->m_fields.back();
+					lgnds::table_field<int64_t> field = (*std::dynamic_pointer_cast<table_field<int64_t>>(base_ptr));
+
+					for( std::size_t rec=0; rec<size; rec++ )
+					{
+						field.at(rec) = (int64_t) pTable->Get_Record(rec)->asLong(field_index);
+					}
+				}
+				break;
+
+				case SG_DATATYPE_Float:
+				{
+					this->push_field<float>( FieldName );
+					base_ptr = this->m_fields.back();
+					lgnds::table_field<float> field = (*std::dynamic_pointer_cast<table_field<float>>(base_ptr));
+
+					for( std::size_t rec=0; rec<size; rec++ )
+					{
+						field.at(rec) = (float) pTable->Get_Record(rec)->asFloat(field_index);
+					}
+				}
 				break;
 
 				case SG_DATATYPE_Double:
-					this->push_field<double>( "name" );
+				{
+					this->push_field<double>( FieldName );
 
-					std::shared_ptr <table_field_base> base_ptr = this->m_fields.back();
-					lgnds::table_field<double> field = 
-						(*std::dynamic_pointer_cast<table_field<double>>(base_ptr));
+					base_ptr = this->m_fields.back();
+					lgnds::table_field<double> field = (*std::dynamic_pointer_cast<table_field<double>>(base_ptr));
 
-					for( int record = 0; record < pTable->Get_Count(); record++ )
+					for( std::size_t rec = 0; rec < pTable->Get_Count(); rec++ )
 					{
-						field.at( record ) = pTable->Get_Record(record)->asDouble(field_index);
+						field.at( rec ) = pTable->Get_Record(rec)->asDouble(field_index);
 
-						//*field = pTable->Get_Record(record)->asDouble(field_index);
-						//++field;
 					}
+				}
+				break;
+
+				case SG_DATATYPE_String:
+				{
+					this->push_field<std::string>( FieldName );
+
+					base_ptr = this->m_fields.back();
+					lgnds::table_field<std::string> field = (*std::dynamic_pointer_cast<table_field<std::string>>(base_ptr));
+
+					for( std::size_t rec = 0; rec < pTable->Get_Count(); rec++ )
+					{
+						std::wstring ws = pTable->Get_Record(rec)->asString(field_index);
+						std::string s( ws.begin(), ws.end() );
+						field.at( rec ) = s;
+
+					}
+				}
 				break;
 
 
@@ -278,7 +423,6 @@ public:
 		}
 
 	}
-#endif
 
 	~table( void )	{};
 
